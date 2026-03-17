@@ -1,20 +1,45 @@
-var myPageDatabase = {
-    "/pages/bangidong-yuheung": {
-        "content": "<h2>방이동유흥의 새로운 기준, 품격 있는 선택</h2><p>송파구의 중심, 방이동유흥 상권은 단순한 유흥을 넘어 비즈니스와 사교의 장으로 자리매김했습니다. 특히 방이동유흥 구역은 최신 인테리어와 전문적인 시스템을 갖춘 매장들이 밀집해 있어 방문객들의 만족도가 매우 높습니다.</p><h3>차별화된 방이동유흥 서비스</h3><ul><li>프라이빗한 공간 설계</li><li>방이동유흥 전담 매니저의 맞춤 케어</li><li>최상급 음향 및 조명 시설 완비</li></ul>",
-        "keywords": "방이동유흥, 송파구유흥, 방이동유흥추천",
-        "schema": {
-            "type": "LocalBusiness",
-            "name": "방이동유흥 1등 매장",
-            "description": "방이동 최고의 시설과 서비스를 자랑하는 유흥 전문 안내"
+<script src="https://cdn.jsdelivr.net/gh/seohuis211-droid/Aa@main/data.js?v=12.1"></script>
+
+<script>
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        var path = window.location.pathname;
+
+        if (typeof myPageDatabase !== 'undefined' && myPageDatabase[path]) {
+            var item = myPageDatabase[path];
+            
+            var container = document.createElement('div');
+            container.style.cssText = "padding:60px 20px; text-align:left; background:#ffffff; border-bottom:4px solid #000; max-width:900px; margin:0 auto; position:relative; z-index:9999;";
+            
+            // --- 내용 추출 로직 개선 ---
+            var mainContent = "";
+            if (typeof item === 'string') {
+                // 1. 데이터가 그냥 글자일 때
+                mainContent = item;
+            } else if (typeof item === 'object' && item.content) {
+                // 2. 데이터가 {content: "..."} 형식일 때
+                mainContent = item.content;
+            } else {
+                // 3. 그 외의 경우 (주소 끝 단어라도 출력)
+                mainContent = "<h2>" + path.split('/').pop().replace(/-/g, ' ') + " 상세 안내</h2><p>해당 페이지의 상세 정보를 준비 중입니다.</p>";
+            }
+            
+            var html = '<div style="font-size:18px; line-height:1.8; color:#333; margin-bottom:40px;">' + mainContent + '</div>';
+            
+            // 하단 링크 리스트
+            html += '<div style="background:#f8f9fa; padding:25px; border-radius:15px; border:1px solid #eee;">';
+            html += '<p style="font-size:14px; color:#888; margin-bottom:15px; font-weight:bold;">📍 다른 지역 정보 보기</p><div style="display:flex; flex-wrap:wrap; gap:10px;">';
+            Object.keys(myPageDatabase).forEach(function(key) {
+                if (key !== path) {
+                    var label = (typeof myPageDatabase[key] === 'object') ? key.split('/').pop() : myPageDatabase[key];
+                    html += '<a href="' + key + '" style="padding:8px 15px; background:#fff; border:1px solid #ddd; border-radius:5px; text-decoration:none; color:#555; font-size:13px;">#' + label + '</a>';
+                }
+            });
+            html += '</div></div>';
+            
+            container.innerHTML = html;
+            document.body.prepend(container);
         }
-    },
-    "/pages/bangidong-noraeppa": {
-        "content": "<h2>방이동노래빠에서 즐기는 최고의 모임 경험</h2><p>방이동노래빠는 깔끔한 시설과 합리적인 비용으로 송파구 지역에서 가장 인기 있는 회식 장소입니다. 최신 음향 장비는 물론, 넓은 룸을 보유하고 있어 방이동노래빠를 찾는 단체 고객들에게 최적의 환경을 제공합니다.</p><h3>방이동노래빠 이용 핵심 팁</h3><p>방이동노래빠를 방문하실 때는 사전 예약을 통해 대기 시간을 줄이는 것이 좋습니다. 특히 피크 시간대인 저녁 9시 이후에는 방이동노래빠의 인기가 매우 높으니 참고하시기 바랍니다.</p>",
-        "keywords": "방이동노래빠, 송파노래빠, 방이먹자골목노래빠",
-        "schema": {
-            "type": "LocalBusiness",
-            "name": "방이동노래빠 전문 센터",
-            "description": "방이동 지역 최신 시설 노래빠 위치 및 가격 정보 제공"
-        }
-    }
-};
+    }, 500);
+});
+</script>
